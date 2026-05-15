@@ -16,7 +16,8 @@
     "tsBuildInfoFile": "./node_modules/.cache/tsbuildinfo",
     "paths": {
       "@/*": ["src/*"]
-    }
+    },
+    "types": ["vitest/globals"]
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "test"]

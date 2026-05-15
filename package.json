@@ -7,10 +7,12 @@
   ],
   "scripts": {
     "build": "turbo build",
-    "dev": "turbo dev",
+    "dev": "turbo dev --filter=@task-board/web --filter=@task-board/api",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,json,md}\"",
-    "type-check": "turbo type-check"
+    "type-check": "turbo type-check",
+    "test": "turbo test --filter=@task-board/web --filter=@task-board/api",
+    "test:e2e": "turbo test:e2e --filter=@task-board/e2e"
   },
   "devDependencies": {
     "prettier": "^3.3.3",
