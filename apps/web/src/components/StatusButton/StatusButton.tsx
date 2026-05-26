@@ -1,8 +1,9 @@
+import React from 'react';
 import { TaskStatus } from '@/types/task';
 
 interface StatusButtonProps {
   status: Exclude<TaskStatus, 'todo'>;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const STATUS_CONFIG = {

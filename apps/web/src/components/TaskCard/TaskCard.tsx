@@ -3,6 +3,7 @@ import StatusButton from '@/components/StatusButton/StatusButton';
 
 interface TaskCardProps {
   task: Task;
+  onEdit?: (task: Task) => void;
   onStatusChange?: (id: string, status: TaskStatus) => void;
 }
 
@@ -13,11 +14,13 @@ const CARD_BG: Record<TaskStatus, string> = {
   todo:          'bg-task-todo',
 };
 
-export default function TaskCard({ task, onStatusChange }: TaskCardProps) {
+export default function TaskCard({ task, onEdit, onStatusChange }: TaskCardProps) {
   return (
     <article
+      role="article"
       aria-label={task.title}
-      className={`flex items-center gap-3 p-3 rounded-2xl ${CARD_BG[task.status]}`}
+      onClick={() => onEdit?.(task)}
+      className={`flex items-center gap-3 p-3 rounded-2xl ${CARD_BG[task.status]} ${onEdit ? 'cursor-pointer hover:opacity-90 transition-opacity' : ''}`}
     >
       {/* Icon */}
       <div
@@ -44,7 +47,10 @@ export default function TaskCard({ task, onStatusChange }: TaskCardProps) {
       {task.status !== 'todo' && (
         <StatusButton
           status={task.status}
-          onClick={() => onStatusChange?.(task.id, task.status)}
+          onClick={(e) => {
+            e.stopPropagation();
+            onStatusChange?.(task.id, task.status);
+          }}
         />
       )}
     </article>

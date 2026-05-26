@@ -55,6 +55,9 @@ coverage
 *.lcov
 .nyc_output
 
+# SQLite database
+*.sqlite
+
 # Misc
 .cache
 .eslintcache
