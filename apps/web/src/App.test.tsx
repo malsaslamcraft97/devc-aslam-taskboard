@@ -4,18 +4,6 @@ import { MemoryRouter } from 'react-router-dom';
 import App from './App';
 import { useBoardStore } from '@/store/boardStore';
 
-const mockBoard = {
-  id: 'test-board',
-  name: 'My Task Board',
-  description: 'Tasks to keep organised',
-  tasks: [
-    { id: '1', title: 'Task in Progress', status: 'in-progress', icon: '🕐', boardId: 'test-board' },
-    { id: '2', title: 'Task Completed', status: 'completed', icon: '⚡', boardId: 'test-board' },
-    { id: '3', title: "Task Won't Do", status: 'wont-do', icon: '☕', boardId: 'test-board' },
-    { id: '4', title: 'Task To Do', status: 'todo', icon: '📚', description: 'Work on a Challenge on devChallenges.io, learn TypeScript.', boardId: 'test-board' },
-  ],
-};
-
 vi.mock('@/api/boardApi', () => {
   const board = {
     id: 'test-board',
