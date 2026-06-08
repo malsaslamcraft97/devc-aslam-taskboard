@@ -1,13 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
 import { Board } from '@/types/task';
-import { useBoardStore } from '@/store/boardStore';
 
 interface Props {
   board: Board;
+  onSave: (data: { name?: string; description?: string }) => Promise<void>;
 }
 
-export default function TaskBoardHeader({ board }: Props) {
-  const { updateBoardMeta } = useBoardStore();
+export default function TaskBoardHeader({ board, onSave }: Props) {
   const [editing, setEditing] = useState(false);
   const [name, setName] = useState(board.name);
   const [description, setDescription] = useState(board.description ?? '');
@@ -30,7 +29,7 @@ export default function TaskBoardHeader({ board }: Props) {
       setName(board.name);
       return;
     }
-    await updateBoardMeta({ name: trimmed, description: description.trim() || undefined });
+    await onSave({ name: trimmed, description: description.trim() || undefined });
   }
 
   function handleKeyDown(e: React.KeyboardEvent) {

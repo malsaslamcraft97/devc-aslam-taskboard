@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import * as api from '@/api/boardApi';
+import * as boardApi from '@/infrastructure/boardApi';
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -10,7 +10,7 @@ export default function HomePage() {
     if (creating.current) return;
     creating.current = true;
 
-    api
+    boardApi
       .createBoard()
       .then((board) => navigate(`/board/${board.id}`, { replace: true }))
       .catch(() => {

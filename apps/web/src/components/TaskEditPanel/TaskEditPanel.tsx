@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Task, TaskStatus } from '@/types/task';
+import { PRESET_ICONS, STATUS_EDIT_OPTIONS, isValidTaskTitle } from '@/domain/task';
 
 interface Props {
   task: Task;
@@ -7,15 +8,6 @@ interface Props {
   onSave: (id: string, data: Partial<Pick<Task, 'title' | 'description' | 'icon' | 'status'>>) => Promise<void>;
   onDelete: (id: string) => Promise<void>;
 }
-
-const PRESET_ICONS = ['📝', '📚', '⚡', '🕐', '☕', '🎯', '🚀', '💡', '🔥', '✅', '🎉', '🧩'];
-
-const STATUS_OPTIONS: { value: TaskStatus; label: string; bg: string; active: string }[] = [
-  { value: 'todo',        label: 'To Do',       bg: 'bg-task-todo',        active: 'ring-2 ring-gray-400' },
-  { value: 'in-progress', label: 'In Progress',  bg: 'bg-task-in-progress', active: 'ring-2 ring-btn-amber' },
-  { value: 'completed',   label: 'Completed',    bg: 'bg-task-completed',   active: 'ring-2 ring-btn-green' },
-  { value: 'wont-do',     label: "Won't Do",     bg: 'bg-task-wont-do',     active: 'ring-2 ring-btn-red'   },
-];
 
 export default function TaskEditPanel({ task, onClose, onSave, onDelete }: Props) {
   const [title, setTitle] = useState(task.title);
@@ -53,7 +45,6 @@ export default function TaskEditPanel({ task, onClose, onSave, onDelete }: Props
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
       <div className="bg-white rounded-3xl w-full max-w-[480px] p-6 flex flex-col gap-5 shadow-2xl">
-        {/* Header */}
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-extrabold text-gray-900">Task details</h2>
           <button
@@ -65,7 +56,6 @@ export default function TaskEditPanel({ task, onClose, onSave, onDelete }: Props
           </button>
         </div>
 
-        {/* Icon picker */}
         <div>
           <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Icon</label>
           <div className="flex flex-wrap gap-2">
@@ -83,7 +73,6 @@ export default function TaskEditPanel({ task, onClose, onSave, onDelete }: Props
           </div>
         </div>
 
-        {/* Title */}
         <div>
           <label htmlFor="task-title" className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">
             Task name
@@ -97,7 +86,6 @@ export default function TaskEditPanel({ task, onClose, onSave, onDelete }: Props
           />
         </div>
 
-        {/* Description */}
         <div>
           <label htmlFor="task-desc" className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">
             Description
@@ -112,15 +100,14 @@ export default function TaskEditPanel({ task, onClose, onSave, onDelete }: Props
           />
         </div>
 
-        {/* Status */}
         <div>
           <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Status</label>
           <div className="flex flex-wrap gap-2">
-            {STATUS_OPTIONS.map((opt) => (
+            {STATUS_EDIT_OPTIONS.map((opt) => (
               <button
                 key={opt.value}
                 onClick={() => setStatus(opt.value)}
-                className={`px-3 py-1.5 rounded-xl text-sm font-bold ${opt.bg} ${status === opt.value ? opt.active : ''} transition-all`}
+                className={`px-3 py-1.5 rounded-xl text-sm font-bold ${opt.cardBg} ${status === opt.value ? opt.activeBorder : ''} transition-all`}
               >
                 {opt.label}
               </button>
@@ -128,7 +115,6 @@ export default function TaskEditPanel({ task, onClose, onSave, onDelete }: Props
           </div>
         </div>
 
-        {/* Actions */}
         <div className="flex gap-3 pt-1">
           <button
             onClick={handleDelete}
@@ -139,7 +125,7 @@ export default function TaskEditPanel({ task, onClose, onSave, onDelete }: Props
           </button>
           <button
             onClick={handleSave}
-            disabled={saving || !title.trim()}
+            disabled={saving || !isValidTaskTitle(title)}
             className="flex-1 py-3 rounded-xl text-sm font-bold text-white bg-gray-900 hover:bg-gray-700 transition-colors disabled:opacity-50"
           >
             {saving ? 'Saving…' : 'Save'}

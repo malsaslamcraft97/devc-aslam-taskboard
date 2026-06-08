@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useBoardStore } from '@/store/boardStore';
+import { useBoardStore } from '@/application/boardStore';
 import TaskBoardHeader from '@/components/TaskBoardHeader/TaskBoardHeader';
 import TaskCard from '@/components/TaskCard/TaskCard';
 import AddTaskCard from '@/components/AddTaskCard/AddTaskCard';
@@ -9,7 +9,7 @@ import { Task } from '@/types/task';
 
 export default function BoardPage() {
   const { boardId } = useParams<{ boardId: string }>();
-  const { board, loading, error, loadBoard, addTask, updateTask, deleteTask } = useBoardStore();
+  const { board, loading, error, loadBoard, updateBoardMeta, addTask, updateTask, deleteTask } = useBoardStore();
   const [editingTask, setEditingTask] = useState<Task | null>(null);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function BoardPage() {
   return (
     <main className="min-h-screen bg-white py-12 px-4 font-sans">
       <div className="w-full max-w-[480px] mx-auto">
-        <TaskBoardHeader board={board} />
+        <TaskBoardHeader board={board} onSave={updateBoardMeta} />
         <div className="mt-7 flex flex-col gap-3">
           {board.tasks.map((task) => (
             <TaskCard

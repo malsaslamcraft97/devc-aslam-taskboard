@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import App from './App';
-import { useBoardStore } from '@/store/boardStore';
+import { useBoardStore } from '@/application/boardStore';
 
 const mockBoard = {
   id: 'test-board',
@@ -16,7 +16,7 @@ const mockBoard = {
   ],
 };
 
-vi.mock('@/api/boardApi', () => {
+vi.mock('@/infrastructure/boardApi', () => {
   const board = {
     id: 'test-board',
     name: 'My Task Board',
